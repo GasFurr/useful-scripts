@@ -55,26 +55,6 @@ pub fn build(b: *std.Build) void {
     // Install the executable
     b.installArtifact(exe);
 
-    // Add a 'run' step for convenience (e.g., 'zig build run')
-    const run_cmd = b.addRunArtifact(exe);
-    run_cmd.step.dependOn(b.getRunStep());
-    if (b.args.len > 0) {
-        run_cmd.addArgs(b.args);
-    }
-    const run_step = b.step(\"run\", \"Run the app\");
-    run_step.dependOn(&run_cmd.step);
-
-    // Add a 'test' step (optional, but good practice)
-    // For this minimal setup, tests would be in 'test/main.zig'
-    // but we're not creating that file in this script.
-    // const lib_unit_tests = b.addTest(.{
-    //     .root_source_file = b.path(\"test/main.zig\"),
-    //     .target = target,
-    //     .optimize = optimize,
-    // });
-    // const run_lib_unit_tests = b.addRunArtifact(lib_unit_tests);
-    // const test_step = b.step(\"test\", \"Run unit tests\");
-    // test_step.dependOn(&run_lib_unit_tests.step);
 }
 " > "$build_zig_path"
     echo "  Created ${build_zig_path}"
@@ -113,11 +93,3 @@ create_build_zig "$PROJECT_NAME"
 
 echo ""
 echo "Minimal Zig project '${PROJECT_NAME}' created successfully!"
-echo "To get started:"
-echo "  cd ${PROJECT_NAME}"
-echo "  zig build run"
-echo ""
-echo "You can also build the executable:"
-echo "  zig build"
-echo "And then run it from the 'zig-out/bin' directory:"
-echo "  ./zig-out/bin/${PROJECT_NAME}"
